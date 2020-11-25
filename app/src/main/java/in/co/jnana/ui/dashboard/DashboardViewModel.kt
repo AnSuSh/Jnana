@@ -26,7 +26,6 @@ class DashboardViewModel : ViewModel() {
             "Swift Programming Basics"
         )
     }
-
     private val dataset: LiveData<Array<String>> = _dataset
 
     val adapter = CourseAdapter(dataset.value!!)

@@ -26,9 +26,11 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
+
         recyclerView = root.findViewById(R.id.courses_recycler_view)
         recyclerView.adapter = dashboardViewModel.adapter
         recyclerView.layoutManager = GridLayoutManager(root.context,1)
+
         setHasOptionsMenu(true)
         return root
     }

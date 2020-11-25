@@ -5,4 +5,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="search_item">Search</string>
     <string name="simple_description">Simple Description of the course..</string>
+    <string name="course_image">Image of the course</string>
+    <string name="toast_name">Course Item clicked!!</string>
 </resources>
