@@ -9,12 +9,28 @@
         android:id="@+id/navigation_profile"
         android:name="in.co.jnana.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_profile_to_userAuth"
+            app:destination="@id/userAuth"
+            app:enterAnim="@anim/fragment_open_enter" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="in.co.jnana.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/userAuth"
+        android:name="in.co.jnana.ui.auth.UserAuth"
+        android:label="user_auth_fragment"
+        tools:layout="@layout/user_auth_fragment" >
+        <action
+            android:id="@+id/action_userAuth_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:popUpTo="@id/userAuth"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class CourseAdapter(private val dataset: Array<String>):
@@ -20,14 +19,15 @@ class CourseAdapter(private val dataset: Array<String>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_card_view, parent, false)
         view.findViewById<View>(R.id.clickableView).setOnClickListener{
-            sendToast(view)
+//            sendToast(view)
+//            TODO >> Show detail page of the course
         }
         return CourseViewHolder(view)
     }
 
-    private fun sendToast(view: View) {
-        Toast.makeText(view.context, R.string.toast_name, Toast.LENGTH_SHORT).show()
-    }
+//    private fun sendToast(view: View) {
+//        Toast.makeText(view.context, R.string.toast_name, Toast.LENGTH_SHORT).show()
+//    }
 
     override fun getItemCount(): Int {
         return dataset.size

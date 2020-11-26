@@ -7,4 +7,8 @@
     <string name="simple_description">Simple Description of the course..</string>
     <string name="course_image">Image of the course</string>
     <string name="toast_name">Course Item clicked!!</string>
+    <string name="shared_Pref_Key">in.co.jnana.defaultSharedPrefV2</string>
+    <string name="user_auth_granted">12</string>
+    <string name="user_auth_string">in.co.jnana.USERAUTH</string>
+    <string name="user_not_authenticated">You are not signed in..Please Sign in</string>
 </resources>
