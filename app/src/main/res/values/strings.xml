@@ -11,4 +11,8 @@
     <string name="user_auth_granted">12</string>
     <string name="user_auth_string">in.co.jnana.USERAUTH</string>
     <string name="user_not_authenticated">You are not signed in..Please Sign in</string>
+    <string name="user_image">User profile image</string>
+    <string name="userName_hint">Enter your username here</string>
+    <string name="password_hint">Enter your password here</string>
+    <string name="button_sign_in_text">Sign in</string>
 </resources>

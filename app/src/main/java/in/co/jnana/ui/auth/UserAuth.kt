@@ -13,7 +13,7 @@ class UserAuth : Fragment() {
     companion object {
         fun newInstance() = UserAuth()
     }
-
+    
     private lateinit var viewModel: UserAuthViewModel
 
     override fun onCreateView(
