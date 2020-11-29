@@ -23,9 +23,7 @@ class DashboardFragment : Fragment() {
             ViewModelProvider(this).get(DashboardViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+        textView.text = dashboardViewModel.text.value
 
         recyclerView = root.findViewById(R.id.courses_recycler_view)
         recyclerView.adapter = dashboardViewModel.adapter

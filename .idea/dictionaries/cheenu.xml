@@ -2,8 +2,14 @@
   <dictionary name="cheenu">
     <words>
       <w>dataset</w>
+      <w>gani</w>
       <w>jnana</w>
+      <w>livedata</w>
+      <w>rowid</w>
+      <w>signup</w>
+      <w>textview</w>
       <w>userauth</w>
+      <w>viewmodel</w>
     </words>
   </dictionary>
 </component>

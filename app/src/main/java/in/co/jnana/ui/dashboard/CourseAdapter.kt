@@ -1,6 +1,7 @@
 package `in`.co.jnana.ui.dashboard
 
 import `in`.co.jnana.R
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class CourseAdapter(private val dataset: Array<String>):
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_card_view, parent, false)
         view.findViewById<View>(R.id.clickableView).setOnClickListener{
 //            sendToast(view)
-//            TODO >> Show detail page of the course
+            Log.i(">>>>>>>>>>>>>>>>>>>>>>>", "Course Item clicked..!!")
         }
         return CourseViewHolder(view)
     }

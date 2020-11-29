@@ -2,13 +2,17 @@ package `in`.co.jnana.database.user
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Student_table")
+@Entity(
+    tableName = "Student_table",
+    indices = [Index(value = ["username"], unique = true)]
+)
 data class Student(
 
     @PrimaryKey(autoGenerate = true)
-    var studentID: Long = 0L,
+    var studentId: Long = 0L,
 
     @ColumnInfo(name = "username")
     val userName: String,

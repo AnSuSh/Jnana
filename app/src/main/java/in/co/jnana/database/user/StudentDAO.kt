@@ -24,7 +24,8 @@ abstract class StudentDatabase : RoomDatabase() {
                         StudentDatabase::class.java,
                         "Student_Record_Database"
                     )
-                        .fallbackToDestructiveMigration().build()
+                        .fallbackToDestructiveMigration()
+                        .build()
                     INSTANCE = instance
                 }
                 return instance
@@ -43,15 +44,6 @@ interface StudentDAO {
 
     @Delete
     fun delete(student: Student)
-
-    @Query("select * from Student_table where studentID = :key")
-    fun getStudent(key: Long): Student?
-
-    @Query(value = "delete from STUDENT_TABLE")
-    fun clear()
-
-    @Query("select * from student_table where stud_email=:email")
-    fun getStudentByEmail(email: String): Student?
 
     @Query("select * from student_table where username=:uname")
     fun getStudentByUsername(uname: String): Student?

@@ -29,4 +29,5 @@ class DashboardViewModel : ViewModel() {
     private val dataset: LiveData<Array<String>> = _dataset
 
     val adapter = CourseAdapter(dataset.value!!)
+
 }

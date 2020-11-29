@@ -26,4 +26,10 @@
     <style name="Theme.Jnana.CardViewText.Desc" parent="Theme.Jnana.CardViewText.Title">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="Theme.jnana.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="background">@android:color/holo_purple</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawable">@drawable/ic_launcher_foreground</item>
+    </style>
 </resources>
