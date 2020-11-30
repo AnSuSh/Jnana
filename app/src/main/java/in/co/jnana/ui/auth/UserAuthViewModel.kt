@@ -7,7 +7,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 
-class UserAuthViewModel(private val dataSource: StudentDAO, application: Application) : AndroidViewModel(application) {
+class UserAuthViewModel(private val dataSource: StudentDAO, application: Application) :
+    AndroidViewModel(application) {
 
     /**
      * temp entry
@@ -21,17 +22,19 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
         mobileNo = 9078563412
     )
 
-    private var _sAuth = Student(0L, "", "", "", "", "", 0)
-    val sAuth = _sAuth
+    private var _sAuth = MutableLiveData<Student>()
+    val sAuth : LiveData<Student>
+    get() = _sAuth
+
 
     private val _userName = MutableLiveData<String>()
 
     /**
      * Livedata holding value of username textview
      * */
-    val userName: LiveData<String>
-        get() = _userName
 
+    private val userName: LiveData<String>
+        get() = _userName
 
 
     private val _password = MutableLiveData<String>()
@@ -39,9 +42,8 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
     /**
      * Livedata holding value of password textview
      * */
-    val password: LiveData<String>
+    private val password: LiveData<String>
         get() = _password
-
 
     private val viewModelJob = Job()
 
@@ -68,22 +70,22 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
     val navigateToProfileFragment: LiveData<Boolean>
         get() = _navigateToProfileFragment
 
-    private var _passwordErrorShow = MutableLiveData<Boolean>()
-
-    /**
-     * Variable to observe state of the password textView to show error.
-     * */
-    val passwordErrorShow: LiveData<Boolean>
-        get() = _passwordErrorShow
-
-    private var _usernameErrorShow = MutableLiveData<Boolean>()
-
-    /**
-     * Variable to observe state of the username textView to show error.
-     * */
-    val usernameErrorShow: LiveData<Boolean>
-        get() = _usernameErrorShow
-
+//    private var _passwordErrorShow = MutableLiveData<Boolean>()
+//
+//    /**
+//     * Variable to observe state of the password textView to show error.
+//     * */
+//    val passwordErrorShow: LiveData<Boolean>
+//        get() = _passwordErrorShow
+//
+//    private var _usernameErrorShow = MutableLiveData<Boolean>()
+//
+//    /**
+//     * Variable to observe state of the username textView to show error.
+//     * */
+//    val usernameErrorShow: LiveData<Boolean>
+//        get() = _usernameErrorShow
+//
     /**
      *  Takes user to login page and further to authentication.
      * */
@@ -93,17 +95,15 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
             "Login button is clicked..!!${dataSource}, ${userName.value}, ${password.value}"
         )
         uiScope.launch {
-            checkUserIfExist()?.let {
+            userIfExist()?.let {
                 Log.i(
                     "....................LOG",
-                    "password is: $it \n entered password is : ${password.value}"
+                    "password is: ${it.password} entered password is : ${password.value}"
                 )
                 if (it.password == password.value) { //password matched
-                    _sAuth = it
+                    _sAuth.value = it
                     _navigateToProfileFragment.value = true
-                } else { //password is wrong
-                    _usernameErrorShow.value = true
-                    _passwordErrorShow.value = true
+                    Log.i(">>>>Log", "Navigating to profile fragment")
                 }
             }
         }
@@ -115,12 +115,13 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
      * */
     fun doUserSignup() {
         Log.i("....................LOG", "Signup is in process")
+        _navigateToSignUpFragment.value = true
     }
 
     /**
      * Function checks if user exists in table or not and if exists, returns the password of the user or null
      * */
-    private suspend fun checkUserIfExist(): Student? {
+    private suspend fun userIfExist(): Student? {
         return withContext(Dispatchers.IO) {
             val student = userName.value?.let {
                 dataSource.getStudentByUsername(it)
@@ -139,27 +140,28 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
         }
     }
 
-    /**
-     * Setting viewmodel variable of profile page navigation to false
-     * when navigation is complete.
-     * */
-    fun doneNavigationToProfileFragment() {
-        _navigateToProfileFragment.value = false
-    }
+//    /**
+//     * Setting viewmodel variable of profile page navigation to false
+//     * when navigation is complete.
+//     * */
+//    fun doneNavigationToProfileFragment() {
+//        _navigateToProfileFragment.value = null
+//        Log.i(">>>>Log", "Navigation set to false for profile fragment")
+//    }
 
-    /**
-     *  Setting viewmodel variable of Error show in username textview to false
-     * */
-    fun doneUsernameErrorShow() {
-        _usernameErrorShow.value = false
-    }
+//    /**
+//     *  Setting viewmodel variable of Error show in username textview to false
+//     * */
+//    fun doneUsernameErrorShow() {
+//        _usernameErrorShow.value = false
+//    }
 
-    /**
-     *  Setting viewmodel variable of Error show in password textview to false
-     * */
-    fun donePasswordErrorShow() {
-        _passwordErrorShow.value = false
-    }
+//    /**
+//     *  Setting viewmodel variable of Error show in password textview to false
+//     * */
+//    fun donePasswordErrorShow() {
+//        _passwordErrorShow.value = false
+//    }
 
     fun runSetupDatabase() {
         uiScope.launch {
@@ -170,6 +172,11 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
                 }
             }
         }
+    }
+
+    fun setValues(username: String, password: String) {
+        _userName.value = username
+        _password.value = password
     }
 }
 

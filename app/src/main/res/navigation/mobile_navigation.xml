@@ -39,9 +39,7 @@
         tools:layout="@layout/user_auth_fragment">
         <action
             android:id="@+id/action_userAuth_to_navigation_profile"
-            app:destination="@id/navigation_profile"
-            app:popUpTo="@id/userAuth"
-            app:popUpToInclusive="true" />
+            app:destination="@id/navigation_profile" />
         <action
             android:id="@+id/action_userAuth_to_signupFragment"
             app:destination="@id/signupFragment" />
