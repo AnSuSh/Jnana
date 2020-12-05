@@ -33,7 +33,7 @@
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintGuide_begin="162dp"
+                app:layout_constraintGuide_begin="152dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,8 +117,8 @@
 
             <RadioGroup
                 android:id="@+id/radioGroup_gender"
-                android:layout_width="215dp"
-                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
@@ -184,55 +184,60 @@
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Name"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editNameOfUser"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Username"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editUserName"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Password"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editPasswordOnce"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvPasswordAgain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Password again"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editPasswordTwice"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Gender"
                 app:layout_constraintBottom_toBottomOf="@+id/radioGroup_gender"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/radioGroup_gender" />
 
@@ -240,22 +245,24 @@
                 android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Email ID"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editEmail"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvMobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Mobile Number"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editMobile"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_center"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button

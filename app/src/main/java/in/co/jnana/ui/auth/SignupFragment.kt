@@ -1,26 +1,27 @@
 package `in`.co.jnana.ui.auth
 
 import `in`.co.jnana.R
+import `in`.co.jnana.database.user.StudentDatabase
 import `in`.co.jnana.databinding.SignupFragmentBinding
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.InternalCoroutinesApi
 
 class SignupFragment : Fragment() {
 
     private lateinit var viewModel: SignupViewModel
     private lateinit var binding: SignupFragmentBinding
-    private val uiScopeOffload = CoroutineScope(Dispatchers.Main)
 
+    @InternalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,47 +29,62 @@ class SignupFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.signup_fragment, container, false)
 
-        viewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
+        val application = requireActivity().application
+        val database = StudentDatabase.getInstance(application).studentDatabaseDAO
+        val viewModelFactory = SignupViewmodelFactory(database, application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(SignupViewModel::class.java)
         binding.signupVM = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.buttonSignup.setOnClickListener { doSignup() }
+
+        viewModel.successSignup.observe(viewLifecycleOwner, {
+            if (it) {
+                Toast.makeText(this.context, "Signup Successful!!", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    findNavController().navigate(R.id.action_signupFragment_to_userAuth)
+                }, 4L)
+            }
+        })
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        uiScopeOffload.launch {
-            val textWatcher = object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    //
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    //
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                    viewModel.setValuesOfEdits(
-                        binding.editNameOfUser.toString(),
-                        binding.editUserName.toString(),
-                        binding.editPasswordOnce.toString(),
-                        binding.editPasswordTwice.toString(),
-                        binding.radioGroupGender.checkedRadioButtonId.toString(),
-                        binding.editEmail.toString(),
-                        binding.editMobile.toString().toLong()
-                    )
-                }
+    @InternalCoroutinesApi
+    private fun doSignup() {
+        viewModel.setValuesOfEdits(  // Setting viewmodel variable first..
+            binding.editNameOfUser.text.toString(),
+            binding.editUserName.text.toString(),
+            binding.editPasswordOnce.text.toString(),
+            binding.editPasswordTwice.text.toString(),
+            binding.radioGroupGender.checkedRadioButtonId.toString(),
+            binding.editEmail.text.toString(),
+            binding.editMobile.text.toString().toLong()
+        )
+        if (viewModel.checkUsername()) {
+            if (viewModel.setPassword())
+                viewModel.insertDataToDatabase()
+            else {
+                binding.editPasswordTwice.error = "Password not matching..!!"
+                binding.editPasswordOnce.error = "Password not matching..!!"
             }
-
-            with(binding) {
-                editNameOfUser.addTextChangedListener(textWatcher)
-                editUserName.addTextChangedListener(textWatcher)
-                editPasswordOnce.addTextChangedListener(textWatcher)
-                editPasswordTwice.addTextChangedListener(textWatcher)
-                editEmail.addTextChangedListener(textWatcher)
-                editMobile.addTextChangedListener(textWatcher)
-            }
-        }
+        } else
+            binding.editUserName.error = "Username already exists..!!"
     }
+
+//    override fun afterTextChanged(p0: Editable?) {
+//        viewModel.setValuesOfEdits(
+//            binding.editNameOfUser.text.toString(),
+//            binding.editUserName.text.toString(),
+//            binding.editPasswordOnce.text.toString(),
+//            binding.editPasswordTwice.text.toString(),
+//            binding.radioGroupGender.checkedRadioButtonId.toString(),
+//            binding.editEmail.text.toString(),
+//            0
+//        )
+//        if (binding.editMobile.text.toString() != "")
+//            viewModel.setValuesOfEdits(
+//                mobile = binding.editMobile.text.toString().toLong()
+//            )
 }
