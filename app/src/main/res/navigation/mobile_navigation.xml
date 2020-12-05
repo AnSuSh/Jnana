@@ -51,7 +51,7 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="in.co.jnana.ui.auth.SignupFragment"
-        android:label="signup_fragment"
+        android:label="Signup to Jnana"
         tools:layout="@layout/signup_fragment">
         <action
             android:id="@+id/action_signupFragment_to_userAuth"

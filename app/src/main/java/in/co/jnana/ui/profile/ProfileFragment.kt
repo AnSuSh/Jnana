@@ -6,9 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -38,6 +36,8 @@ class ProfileFragment : Fragment() {
             textView.text = it
         })
 
+        setHasOptionsMenu(true)
+
         return root
     }
 
@@ -47,6 +47,11 @@ class ProfileFragment : Fragment() {
 //        } else
 //            1
 //    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.profile_page_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -85,6 +90,19 @@ class ProfileFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
         preferences.getString("user_name", "")?.let { profileViewModel.greetUser(it) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.logout){
+            val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+            with(preferences.edit()){
+                putInt("user_key", 0)
+                putString("user_name", null)
+                apply()
+            }
+            findNavController().navigate(R.id.action_navigation_profile_to_userAuth)
+        }
+        return true
     }
 
 //    private fun isSetAuthKey() {
