@@ -4,7 +4,6 @@ import `in`.co.jnana.R
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.*
 import android.widget.TextView
@@ -60,16 +59,7 @@ class ProfileFragment : Fragment() {
         val defaultValue = 0
         val userAuthKey = prefs.getInt("user_key", defaultValue)
         if (userAuthKey == 0) {
-            if (arg.loginState == 0) {
-                Toast.makeText(
-                    this.activity,
-                    "User not Authenticated..!!",
-                    Toast.LENGTH_SHORT
-                ).show()
-                android.os.Handler(Looper.getMainLooper()).postDelayed({
-                    findNavController().navigate(R.id.action_navigation_profile_to_userAuth)
-                }, 2000L)
-            } else {
+            if (arg.loginState == 0) findNavController().navigate(R.id.action_navigation_profile_to_userAuth) else {
                 val prefers = requireActivity().getPreferences(Context.MODE_PRIVATE)
                 with(prefers.edit()) {
                     putInt("user_key", 1)
@@ -93,9 +83,9 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.logout){
+        if (item.itemId == R.id.logout) {
             val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-            with(preferences.edit()){
+            with(preferences.edit()) {
                 putInt("user_key", 0)
                 putString("user_name", null)
                 apply()
