@@ -24,13 +24,21 @@
             android:name="loginState"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="in.co.jnana.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_courseDetail"
+            app:destination="@id/courseDetail"
+            app:enterAnim="@anim/fragment_fade_enter" />
+    </fragment>
 
     <fragment
         android:id="@+id/userAuth"
@@ -39,13 +47,12 @@
         tools:layout="@layout/user_auth_fragment">
         <action
             android:id="@+id/action_userAuth_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
+            app:destination="@id/navigation_profile"
+            app:popUpTo="@id/userAuth"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_userAuth_to_signupFragment"
             app:destination="@id/signupFragment" />
-        <action
-            android:id="@+id/action_userAuth_to_navigation_dashboard"
-            app:destination="@id/navigation_dashboard" />
     </fragment>
 
     <fragment
@@ -58,10 +65,29 @@
             app:destination="@id/userAuth" />
         <action
             android:id="@+id/action_signupFragment_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_signupFragment_to_navigation_dashboard"
-            app:destination="@id/navigation_dashboard" />
+            app:destination="@id/navigation_profile"
+            app:popUpTo="@id/signupFragment"
+            app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/courseDetail"
+        android:name="in.co.jnana.ui.course.CourseDetailFragment"
+        android:label="course_detail_fragment"
+        tools:layout="@layout/course_detail_fragment" >
+        <argument
+            android:name="courseTitle"
+            app:argType="string"
+            android:defaultValue="Course Title" />
+        <argument
+            android:name="courseDescription"
+            app:argType="string"
+            android:defaultValue="Course description" />
+    </fragment>
+
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="in.co.jnana.SplashActivity"
+        android:label="activity_splash"
+        tools:layout="@layout/activity_splash" />
 
 </navigation>
