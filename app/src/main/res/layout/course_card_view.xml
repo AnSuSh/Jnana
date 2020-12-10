@@ -5,13 +5,13 @@
 
     <data>
 
-<!--        <variable-->
-<!--            name="courseClick"-->
-<!--            type="in.co.jnana.ui.course.CourseClickListener" />-->
+        <variable
+            name="courseClick"
+            type="in.co.jnana.ui.course.CourseClickListener" />
 
         <variable
             name="course"
-            type="in.co.jnana.ui.course.Course" />
+            type="in.co.jnana.database.Course" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -90,6 +90,7 @@
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="@{()-> courseClick.onClick(course)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

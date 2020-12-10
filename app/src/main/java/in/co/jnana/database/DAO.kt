@@ -1,27 +1,30 @@
 package `in`.co.jnana.database.user
 
+import `in`.co.jnana.database.Course
+import `in`.co.jnana.database.Student
 import android.content.Context
 import androidx.room.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.synchronized
 
-@Database(entities = [Student::class], version = 1, exportSchema = false)
+@Database(entities = [Student::class, Course::class], version = 1, exportSchema = false)
 //@TypeConverters(Converters::class)
-abstract class StudentDatabase : RoomDatabase() {
+abstract class JnanaDatabase : RoomDatabase() {
     abstract val studentDatabaseDAO: StudentDAO
+    abstract val courseDatabaseDAO: CourseDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: StudentDatabase? = null
+        private var INSTANCE: JnanaDatabase? = null
 
         @InternalCoroutinesApi
-        fun getInstance(context: Context): StudentDatabase {
+        fun getInstance(context: Context): JnanaDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context,
-                        StudentDatabase::class.java,
+                        JnanaDatabase::class.java,
                         "Student_Record_Database"
                     )
                         .fallbackToDestructiveMigration()
@@ -47,6 +50,24 @@ interface StudentDAO {
 
     @Query("select * from student_table where username=:uname")
     fun getStudentByUsername(uname: String): Student?
+}
+
+@Dao
+interface CourseDAO {
+    @Insert
+    fun insert(course: Course)
+
+    @Update
+    fun update(course: Course)
+
+    @Delete
+    fun delete(course: Course)
+
+    @Query("select * from course_table where courseID=:courseID")
+    fun getCourseByID(courseID: Long): Course?
+
+    @Query("select * from course_table")
+    fun getAllCourses(): List<Course>
 }
 
 //class Converters {

@@ -1,4 +1,4 @@
-package `in`.co.jnana.database.user
+package `in`.co.jnana.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

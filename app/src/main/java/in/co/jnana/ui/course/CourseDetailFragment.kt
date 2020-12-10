@@ -27,7 +27,9 @@ class CourseDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        courseDetailViewModel = ViewModelProvider(this).get(CourseDetailViewModel::class.java)
+        val args = CourseDetailFragmentArgs.fromBundle(requireArguments())
+        val courseDetailViewModelFactory = CourseDetailViewModelFactory(args.courseID)
+        courseDetailViewModel = ViewModelProvider(this,courseDetailViewModelFactory).get(CourseDetailViewModel::class.java)
         courseDetailViewModel.setTitle("Course New")
         courseDetailViewModel.setDescription("Course description")
         courseDataBinding.invalidateAll()

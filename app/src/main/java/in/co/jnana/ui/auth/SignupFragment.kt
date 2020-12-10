@@ -1,7 +1,7 @@
 package `in`.co.jnana.ui.auth
 
 import `in`.co.jnana.R
-import `in`.co.jnana.database.user.StudentDatabase
+import `in`.co.jnana.database.user.JnanaDatabase
 import `in`.co.jnana.databinding.SignupFragmentBinding
 import android.os.Bundle
 import android.os.Handler
@@ -35,7 +35,7 @@ class SignupFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.signup_fragment, container, false)
 
         val application = requireActivity().application
-        val database = StudentDatabase.getInstance(application).studentDatabaseDAO
+        val database = JnanaDatabase.getInstance(application).studentDatabaseDAO
         val viewModelFactory = SignupViewmodelFactory(database, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(SignupViewModel::class.java)

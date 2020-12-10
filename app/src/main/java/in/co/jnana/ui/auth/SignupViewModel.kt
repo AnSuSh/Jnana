@@ -1,16 +1,13 @@
 package `in`.co.jnana.ui.auth
 
-import `in`.co.jnana.database.user.Student
+import `in`.co.jnana.database.Student
 import `in`.co.jnana.database.user.StudentDAO
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 
-class SignupViewModel(private val dataSource: StudentDAO, application: Application) : ViewModel() {
+class SignupViewModel(private val dataSource: StudentDAO, application: Application) : AndroidViewModel(application) {
 
     private var name: String? = null
     private var userName: String? = null

@@ -72,16 +72,11 @@
     <fragment
         android:id="@+id/courseDetail"
         android:name="in.co.jnana.ui.course.CourseDetailFragment"
-        android:label="course_detail_fragment"
+        android:label="Course Detail"
         tools:layout="@layout/course_detail_fragment" >
         <argument
-            android:name="courseTitle"
-            app:argType="string"
-            android:defaultValue="Course Title" />
-        <argument
-            android:name="courseDescription"
-            app:argType="string"
-            android:defaultValue="Course description" />
+            android:name="courseID"
+            app:argType="long" />
     </fragment>
 
     <activity

@@ -1,7 +1,7 @@
 package `in`.co.jnana.ui.auth
 
 import `in`.co.jnana.R
-import `in`.co.jnana.database.user.StudentDatabase
+import `in`.co.jnana.database.user.JnanaDatabase
 import `in`.co.jnana.databinding.UserAuthFragmentBinding
 import android.os.Bundle
 import android.text.Editable
@@ -30,7 +30,7 @@ class UserAuthFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.user_auth_fragment, container, false)
 
         val application = requireActivity().application
-        val dataSource = StudentDatabase.getInstance(application).studentDatabaseDAO
+        val dataSource = JnanaDatabase.getInstance(application).studentDatabaseDAO
 
         val viewModelFactory = UserAuthViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(UserAuthViewModel::class.java)

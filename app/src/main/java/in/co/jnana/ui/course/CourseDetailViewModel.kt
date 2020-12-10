@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class CourseDetailViewModel(val title: String, val description: String) : ViewModel() {
+class CourseDetailViewModel(val courseID: Long) : ViewModel() {
 
     private var _courseTitle = MutableLiveData<String>()
     val courseTitle: LiveData<String>
@@ -25,13 +25,12 @@ class CourseDetailViewModel(val title: String, val description: String) : ViewMo
 }
 
 @Suppress("UNCHECKED_CAST")
-class CourseDeatilViewModelFactory(
-    private val title: String,
-    private val description: String
+class CourseDetailViewModelFactory(
+    private val courseID: Long
 ): ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CourseDetailViewModel::class.java))
-            return CourseDetailViewModel(title, description) as T
+            return CourseDetailViewModel(courseID) as T
         throw IllegalArgumentException("Unknown viewmodel class")
     }
 }
