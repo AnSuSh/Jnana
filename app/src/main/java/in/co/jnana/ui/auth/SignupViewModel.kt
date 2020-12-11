@@ -1,7 +1,7 @@
 package `in`.co.jnana.ui.auth
 
 import `in`.co.jnana.database.Student
-import `in`.co.jnana.database.user.StudentDAO
+import `in`.co.jnana.database.StudentDAO
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*

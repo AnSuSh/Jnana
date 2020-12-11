@@ -18,12 +18,12 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="username"
-            app:argType="string"
-            android:defaultValue=" "/>
+            android:defaultValue=" "
+            app:argType="string" />
         <argument
             android:name="loginState"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
         <action
             android:id="@+id/action_navigation_profile_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
@@ -32,19 +32,18 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="in.co.jnana.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        android:label="@string/title_dashboard">
         <action
             android:id="@+id/action_navigation_dashboard_to_courseDetail"
             app:destination="@id/courseDetail"
-            app:enterAnim="@anim/fragment_fade_enter" />
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:popUpTo="@id/navigation_dashboard" />
     </fragment>
 
     <fragment
         android:id="@+id/userAuth"
         android:name="in.co.jnana.ui.auth.UserAuthFragment"
-        android:label="Login to Jnana"
-        tools:layout="@layout/user_auth_fragment">
+        android:label="Login to Jnana">
         <action
             android:id="@+id/action_userAuth_to_navigation_profile"
             app:destination="@id/navigation_profile"
@@ -58,8 +57,7 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="in.co.jnana.ui.auth.SignupFragment"
-        android:label="Signup to Jnana"
-        tools:layout="@layout/signup_fragment">
+        android:label="Signup to Jnana">
         <action
             android:id="@+id/action_signupFragment_to_userAuth"
             app:destination="@id/userAuth" />
@@ -72,8 +70,7 @@
     <fragment
         android:id="@+id/courseDetail"
         android:name="in.co.jnana.ui.course.CourseDetailFragment"
-        android:label="Course Detail"
-        tools:layout="@layout/course_detail_fragment" >
+        android:label="Course Detail">
         <argument
             android:name="courseID"
             app:argType="long" />

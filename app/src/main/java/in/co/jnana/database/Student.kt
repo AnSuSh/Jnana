@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 data class Student(
 
     @PrimaryKey(autoGenerate = true)
-    var studentId: Long = 0L,
+    var studentID: Long = 0L,
 
     @ColumnInfo(name = "username")
     val userName: String,

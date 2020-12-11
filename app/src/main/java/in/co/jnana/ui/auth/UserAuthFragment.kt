@@ -1,7 +1,7 @@
 package `in`.co.jnana.ui.auth
 
 import `in`.co.jnana.R
-import `in`.co.jnana.database.user.JnanaDatabase
+import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.UserAuthFragmentBinding
 import android.os.Bundle
 import android.text.Editable

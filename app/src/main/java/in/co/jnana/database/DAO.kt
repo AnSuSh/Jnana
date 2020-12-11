@@ -1,7 +1,5 @@
-package `in`.co.jnana.database.user
+package `in`.co.jnana.database
 
-import `in`.co.jnana.database.Course
-import `in`.co.jnana.database.Student
 import android.content.Context
 import androidx.room.*
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -12,6 +10,7 @@ import kotlinx.coroutines.internal.synchronized
 abstract class JnanaDatabase : RoomDatabase() {
     abstract val studentDatabaseDAO: StudentDAO
     abstract val courseDatabaseDAO: CourseDAO
+//    abstract val courseStudentDAO: CourseStudentDAO
 
     companion object {
         @Volatile
@@ -36,6 +35,18 @@ abstract class JnanaDatabase : RoomDatabase() {
         }
     }
 }
+
+//@Dao
+//interface CourseStudentDAO {
+//
+//    @Insert
+//    fun insert(studentWithCourses: StudentWithCourses)
+//
+//    @Transaction
+//    @Query("select * from Student_table")
+//    fun getStudentWithCourses(): List<StudentWithCourses>
+//
+//}
 
 @Dao
 interface StudentDAO {

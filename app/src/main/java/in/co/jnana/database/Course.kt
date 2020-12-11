@@ -13,7 +13,8 @@ data class Course(
     val title: String,
 
     @ColumnInfo(name = "course_description")
-    val description: String
+    val description: String,
+
 )
 
 val course: List<Course> = listOf(

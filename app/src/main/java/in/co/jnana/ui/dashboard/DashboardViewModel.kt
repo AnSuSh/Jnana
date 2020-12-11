@@ -1,8 +1,8 @@
 package `in`.co.jnana.ui.dashboard
 
 import `in`.co.jnana.database.Course
+import `in`.co.jnana.database.CourseDAO
 import `in`.co.jnana.database.course
-import `in`.co.jnana.database.user.CourseDAO
 import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.*

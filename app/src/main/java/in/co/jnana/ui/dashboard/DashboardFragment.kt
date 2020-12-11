@@ -1,7 +1,7 @@
 package `in`.co.jnana.ui.dashboard
 
 import `in`.co.jnana.R
-import `in`.co.jnana.database.user.JnanaDatabase
+import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.FragmentDashboardBinding
 import `in`.co.jnana.ui.course.CourseAdapter
 import `in`.co.jnana.ui.course.CourseClickListener

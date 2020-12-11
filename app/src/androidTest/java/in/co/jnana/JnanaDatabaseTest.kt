@@ -1,8 +1,8 @@
 package `in`.co.jnana
 
+import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.database.Student
-import `in`.co.jnana.database.user.JnanaDatabase
-import `in`.co.jnana.database.user.StudentDAO
+import `in`.co.jnana.database.StudentDAO
 import android.util.Log
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
