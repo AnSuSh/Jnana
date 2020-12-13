@@ -1,51 +1,59 @@
 package `in`.co.jnana.ui.profile
 
 import `in`.co.jnana.R
+import `in`.co.jnana.database.JnanaDatabase
+import `in`.co.jnana.databinding.FragmentHomeBinding
+import `in`.co.jnana.ui.course.CourseClickListener
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.*
 
 class ProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var arg: ProfileFragmentArgs
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var adapter: EnrolledCourseAdapter
+    private lateinit var preferences: SharedPreferences
 
+    @InternalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         arg = ProfileFragmentArgs.fromBundle(requireArguments())
-        Log.i(">>>>Log", "From profile fragment, just landed, ${arg.username}, ${arg.loginState}")
 
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val application = requireActivity().application
+        val dataSource = JnanaDatabase.getInstance(application).courseStudentDAO
 
-        val textView: TextView = root.findViewById(R.id.text_home)
+        val profileViewModelFactory = ProfileViewModelFactory(dataSource)
+        profileViewModel =
+            ViewModelProvider(this, profileViewModelFactory).get(ProfileViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         profileViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
+            binding.textHome.text = it
         })
 
         setHasOptionsMenu(true)
 
-        return root
-    }
+        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
-//    private fun setKey() {
-//        _keyUser = if (arg.loginState == 0) {
-//            0
-//        } else
-//            1
-//    }
+        binding.profileVM = profileViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        return binding.root
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.profile_page_menu, menu)
@@ -55,11 +63,30 @@ class ProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+//        CoroutineScope(Dispatchers.Main).launch {
+//            withContext(Dispatchers.Main) {
+        if (checkLoginState()) {
+            adapter = EnrolledCourseAdapter(CourseClickListener {
+                profileViewModel.onCourseItemClicked(it)
+            })
+
+            profileViewModel.loadDataSet()
+            binding.enrolledCourseList.adapter = adapter
+            Log.d("Log....", "Comlpeted recyclerView Work")
+            setListeners()
+        }
+//    }
+//}
+    }
+
+    private fun checkLoginState(): Boolean {
         val defaultValue = 0
-        val userAuthKey = prefs.getInt("user_key", defaultValue)
+        val userAuthKey = preferences.getInt("user_key", defaultValue)
         if (userAuthKey == 0) {  // No user data exists
-            if (arg.loginState == 0) findNavController().navigate(R.id.action_navigation_profile_to_userAuth) else {
+            if (arg.loginState == 0) {
+                findNavController().navigate(R.id.action_navigation_profile_to_userAuth)
+                return false
+            } else {
                 val prefers = requireActivity().getPreferences(Context.MODE_PRIVATE)
                 with(prefers.edit()) {
                     putInt("user_key", 1)
@@ -69,8 +96,31 @@ class ProfileFragment : Fragment() {
                 alright(prefers)
             }
         } else {
-            alright(prefs)
+            alright(preferences)
         }
+        return true
+    }
+
+    private fun setListeners() {
+        profileViewModel.navigateToCourseDetail.observe(viewLifecycleOwner, {
+            it?.let {
+                findNavController().navigate(
+                    ProfileFragmentDirections.actionNavigationProfileToCourseDetail(it)
+                )
+                profileViewModel.onCourseDetailNavigated()
+            }
+        })
+        profileViewModel.dataset.observe(viewLifecycleOwner, {
+            it?.let {
+                // For the listAdapter
+                val newList = it.filter { entity ->
+                    entity.student.userName == preferences.getString("user_name", "")
+                }
+                val listCourses = newList[0].courses
+                adapter.submitList(listCourses)
+            }
+        })
+        Log.d("Log....", "Completed listening work")
     }
 
     private fun alright(preferences: SharedPreferences) {
@@ -84,7 +134,6 @@ class ProfileFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.logout) {
-            val preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
             with(preferences.edit()) {
                 putInt("user_key", 0)
                 putString("user_name", null)
@@ -95,45 +144,14 @@ class ProfileFragment : Fragment() {
         return true
     }
 
-//    private fun isSetAuthKey() {
-//        setKey()
-//        val sharedPrefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-//        with(sharedPrefs.edit()) {
-//            putInt("User_Auth_Key", 1)
-//            apply()
-//        }
-//    }
-
-//    override fun onStart() {
-//        super.onStart()
-//        Log.i(getString(R.string.logKey), "Profile fragment is started..!!")
-//
-//        if (bundledData == 90) {
-//            Toast.makeText(
-//                this.activity,
-//                "this is new, No arguments here, passing to Login..",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            android.os.Handler(Looper.getMainLooper()).postDelayed({
-//                findNavController().navigate(R.id.action_navigation_profile_to_userAuth)
-//            }, 2000L)
-//        }
-//
-//        /*
-//        * Share Preference part..
-//        * */
-//        Toast.makeText(this.context, R.string.toast_name, Toast.LENGTH_SHORT).show()
-//        val sharedPrefs = requireActivity().getPreferences(
-//            Context.MODE_PRIVATE
-//        )
-//        val defaultValue: Int = 0
-//        val userAuth = sharedPrefs.getInt(getString(R.string.user_auth_string), defaultValue)
-//
-//        Log.d(getString(R.string.logKey), userAuth.toString())
-//        if (userAuth != 12){
-////            Toast.makeText(this.context, R.string.user_not_authenticated, Toast.LENGTH_LONG).show()
-////            Redirect user to login fragment.. to login
-//            this.findNavController().navigate(R.id.action_navigation_profile_to_userAuth)
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        if (arg.loginState != 0) {
+            CoroutineScope(Dispatchers.Main).launch {
+                withContext(Dispatchers.IO) {
+                    profileViewModel.loadDataSet()
+                }
+            }
+        }
+    }
 }
