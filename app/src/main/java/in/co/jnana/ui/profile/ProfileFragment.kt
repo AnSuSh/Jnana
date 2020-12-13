@@ -58,7 +58,7 @@ class ProfileFragment : Fragment() {
         val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
         val defaultValue = 0
         val userAuthKey = prefs.getInt("user_key", defaultValue)
-        if (userAuthKey == 0) {
+        if (userAuthKey == 0) {  // No user data exists
             if (arg.loginState == 0) findNavController().navigate(R.id.action_navigation_profile_to_userAuth) else {
                 val prefers = requireActivity().getPreferences(Context.MODE_PRIVATE)
                 with(prefers.edit()) {

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
 
-@Entity(primaryKeys = ["courseID", "studentID"], tableName = "course_student")
+@Entity(primaryKeys = ["courseID", "studentID"])
 data class CourseStudentCrossRef(
     val courseID: Long,
     val studentID: Long
@@ -16,6 +16,7 @@ data class StudentWithCourses(
     @Embedded val student: Student,
     @Relation(
         parentColumn = "studentID",
+        entity = Course::class,
         entityColumn = "courseID",
         associateBy = Junction(CourseStudentCrossRef::class)
     )
@@ -23,12 +24,12 @@ data class StudentWithCourses(
 )
 
 // You want list of Users who bought the course
-//data class CourseWithStudent(
-//    @Embedded val course: Course,
-//    @Relation(
-//        parentColumn = "courseID",
-//        entityColumn = "studentID",
-//        associateBy = Junction(CourseStudentCrossRef::class)
-//    )
-//    val students: List<Student>
-//)
+data class CourseWithStudent(
+    @Embedded val course: Course,
+    @Relation(
+        parentColumn = "courseID",
+        entityColumn = "studentID",
+        associateBy = Junction(CourseStudentCrossRef::class)
+    )
+    val students: List<Student>
+)

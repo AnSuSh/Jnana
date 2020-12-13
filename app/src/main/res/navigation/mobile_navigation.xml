@@ -27,6 +27,11 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_navigation_profile_to_courseDetail"
+            app:destination="@id/courseDetail"
+            app:popUpTo="@id/navigation_profile"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -74,6 +79,11 @@
         <argument
             android:name="courseID"
             app:argType="long" />
+        <action
+            android:id="@+id/action_courseDetail_to_userAuth"
+            app:destination="@id/userAuth"
+            app:popUpTo="@id/courseDetail"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <activity

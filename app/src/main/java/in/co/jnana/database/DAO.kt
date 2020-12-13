@@ -5,12 +5,12 @@ import androidx.room.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.synchronized
 
-@Database(entities = [Student::class, Course::class], version = 1, exportSchema = false)
+@Database(entities = [Student::class, Course::class, CourseStudentCrossRef::class], version = 1, exportSchema = false)
 //@TypeConverters(Converters::class)
 abstract class JnanaDatabase : RoomDatabase() {
     abstract val studentDatabaseDAO: StudentDAO
     abstract val courseDatabaseDAO: CourseDAO
-//    abstract val courseStudentDAO: CourseStudentDAO
+    abstract val courseStudentDAO: CourseStudentDAO
 
     companion object {
         @Volatile
@@ -36,17 +36,17 @@ abstract class JnanaDatabase : RoomDatabase() {
     }
 }
 
-//@Dao
-//interface CourseStudentDAO {
-//
-//    @Insert
-//    fun insert(studentWithCourses: StudentWithCourses)
-//
-//    @Transaction
-//    @Query("select * from Student_table")
-//    fun getStudentWithCourses(): List<StudentWithCourses>
-//
-//}
+@Dao
+interface CourseStudentDAO {
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(courseStudentCrossRef: CourseStudentCrossRef)
+
+    @Transaction
+    @Query("select * from Student_table")
+    fun getStudentWithCourses(): List<StudentWithCourses>
+
+}
 
 @Dao
 interface StudentDAO {
