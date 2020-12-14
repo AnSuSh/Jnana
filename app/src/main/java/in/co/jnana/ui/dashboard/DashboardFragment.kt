@@ -55,7 +55,8 @@ class DashboardFragment : Fragment() {
             it?.let {
                 findNavController().navigate(
                     DashboardFragmentDirections.actionNavigationDashboardToCourseDetail(
-                        it
+                        it,
+                        false
                     )
                 )
                 dashboardViewModel.onCourseDetailNavigated()

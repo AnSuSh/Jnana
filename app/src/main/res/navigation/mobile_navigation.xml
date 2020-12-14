@@ -84,6 +84,10 @@
             app:destination="@id/userAuth"
             app:popUpTo="@id/courseDetail"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="isFromProfile"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
     <activity

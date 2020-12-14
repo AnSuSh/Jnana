@@ -53,6 +53,11 @@ class CourseDetailFragment : Fragment() {
             sDataSource
         )
 
+        val actionBar = this.activity?.actionBar
+        actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setHomeButtonEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+
         courseDetailViewModel = ViewModelProvider(
             this,
             courseDetailViewModelFactory
@@ -62,15 +67,21 @@ class CourseDetailFragment : Fragment() {
         courseDataBinding.buttonBuy.setOnClickListener {
             if (userAuthName != "null") { // User is signed in
                 courseDetailViewModel.getUserIDByUsername(userAuthName)
-                courseDetailViewModel.studentID.observe(viewLifecycleOwner, {
-                    if (it > 0){
-                        courseDetailViewModel.buyCourse(args.courseID, it)
+                courseDetailViewModel.studentID.observe(viewLifecycleOwner, {l->
+                    if (l > 0){
+                        courseDetailViewModel.buyCourse(args.courseID, l)
+                        it.isEnabled = false
                         Log.d("Log....", "${args.courseID}, $it")
                     }
                 })
             } else { // Redirect to signin fragment
                 findNavController().navigate(R.id.action_courseDetail_to_userAuth)
             }
+        }
+
+        when(args.isFromProfile){
+            true -> courseDataBinding.buttonBuy.visibility = View.GONE
+            false -> courseDataBinding.buttonBuy.visibility = View.VISIBLE
         }
 
         courseDataBinding.courseDetailVM = courseDetailViewModel

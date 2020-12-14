@@ -9,7 +9,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +45,11 @@ class ProfileFragment : Fragment() {
         })
 
         setHasOptionsMenu(true)
+
+        val actionBar = this.activity?.actionBar
+        actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setHomeButtonEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
 
         preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
@@ -105,7 +109,7 @@ class ProfileFragment : Fragment() {
         profileViewModel.navigateToCourseDetail.observe(viewLifecycleOwner, {
             it?.let {
                 findNavController().navigate(
-                    ProfileFragmentDirections.actionNavigationProfileToCourseDetail(it)
+                    ProfileFragmentDirections.actionNavigationProfileToCourseDetail(it, true)
                 )
                 profileViewModel.onCourseDetailNavigated()
             }
@@ -117,18 +121,27 @@ class ProfileFragment : Fragment() {
                     entity.student.userName == preferences.getString("user_name", "")
                 }
                 val listCourses = newList[0].courses
-                adapter.submitList(listCourses)
+                if (listCourses.isNotEmpty()){
+                    binding.enrolledCourseList.visibility = View.VISIBLE
+                    binding.emptyTV.visibility = View.GONE
+                    adapter.submitList(listCourses)
+                }else{
+                    binding.emptyTV.visibility = View.VISIBLE
+                }
             }
         })
         Log.d("Log....", "Completed listening work")
     }
 
     private fun alright(preferences: SharedPreferences) {
-        Toast.makeText(
-            this.activity,
-            "User Authentication successful..!!",
-            Toast.LENGTH_SHORT
-        ).show()
+//        if (profileViewModel.toastShowCount > 0) {
+//            Toast.makeText(
+//                this.activity,
+//                "User Authentication successful..!!",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//            profileViewModel.toastShowCount = 0
+//        }
         preferences.getString("user_name", "")?.let { profileViewModel.greetUser(it) }
     }
 

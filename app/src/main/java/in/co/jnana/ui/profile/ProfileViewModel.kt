@@ -26,6 +26,7 @@ class ProfileViewModel(
 
     fun onCourseItemClicked(courseID: Long) {
         _navigateToCourseDetail.value = courseID
+
     }
 
     fun onCourseDetailNavigated() {

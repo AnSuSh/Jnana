@@ -34,4 +34,5 @@
     <string name="logout_menu">Logout</string>
     <string name="buy_course_button">Enroll to the Course</string>
     <string name="enrolled_courses">Enrolled Courses</string>
+    <string name="empty_course_list">No Courses enrolled</string>
 </resources>

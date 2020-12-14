@@ -23,8 +23,8 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
     )
 
     private var _sAuth = MutableLiveData<Student>()
-    val sAuth : LiveData<Student>
-    get() = _sAuth
+    val sAuth: LiveData<Student>
+        get() = _sAuth
 
 
     private val _userName = MutableLiveData<String>()
@@ -70,6 +70,10 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
     val navigateToProfileFragment: LiveData<Boolean>
         get() = _navigateToProfileFragment
 
+    private var _showToast = MutableLiveData<String>()
+    val showToast: LiveData<String>
+        get() = _showToast
+
 //    private var _passwordErrorShow = MutableLiveData<Boolean>()
 //
 //    /**
@@ -104,7 +108,11 @@ class UserAuthViewModel(private val dataSource: StudentDAO, application: Applica
                     _sAuth.value = it
                     _navigateToProfileFragment.value = true
                     Log.i(">>>>Log", "Navigating to profile fragment")
-                }
+                } //                else {
+//                    _showToast.value = "password"
+//                }
+//                if (it == null)
+//                    _showToast.value = "user"
             }
         }
     }

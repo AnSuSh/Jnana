@@ -42,6 +42,11 @@ class SignupFragment : Fragment() {
         binding.signupVM = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        val actionBar = this.activity?.actionBar
+        actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setHomeButtonEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+
         uiElements = listOf(
             binding.editNameOfUser,
             binding.editUserName,

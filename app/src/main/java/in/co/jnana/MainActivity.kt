@@ -18,6 +18,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
+        val actionBar = actionBar
+        actionBar?.let {
+            it.setHomeButtonEnabled(false)
+            it.setDisplayHomeAsUpEnabled(false)
+            it.setDisplayShowHomeEnabled(false)
+        }
+
         navController = findNavController(R.id.nav_host_fragment)
         setupActionBarWithNavController(navController)
         // Passing each menu ID as a set of Ids because eache

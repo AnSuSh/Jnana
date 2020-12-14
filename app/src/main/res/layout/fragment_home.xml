@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="profileVM"
             type="in.co.jnana.ui.profile.ProfileViewModel" />
@@ -22,8 +23,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:textSize="20sp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,5 +55,19 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Enroll_title_textV" />
+
+        <TextView
+            android:id="@+id/emptyTV"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_course_list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enrolled_course_list"
+            app:layout_constraintVertical_bias="0.13999999" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

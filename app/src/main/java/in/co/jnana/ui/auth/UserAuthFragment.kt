@@ -89,8 +89,20 @@ class UserAuthFragment : Fragment() {
             }
 //            viewModel.doneNavigationToProfileFragment()
         })
+//
+//        viewModel.showToast.observe(viewLifecycleOwner,{
+//            if (it == "user")
+//                Toast.makeText(this.context, "User Not Found ..!!", Toast.LENGTH_SHORT).show()
+//            else if(it =="password")
+//                Toast.makeText(this.context, "Password not matching", Toast.LENGTH_SHORT).show()
+//        })
 
         viewModel.runSetupDatabase()
+
+        val actionBar = this.activity?.actionBar
+        actionBar?.setDisplayShowHomeEnabled(false)
+        actionBar?.setHomeButtonEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
 
         return binding.root
     }
@@ -112,8 +124,8 @@ class UserAuthFragment : Fragment() {
         binding.userNameTextView.addTextChangedListener(afterTextChanged)
         binding.passwordTextView.addTextChangedListener(afterTextChanged)
 
-        viewModel.navigateToSignUpFragment.observe(viewLifecycleOwner,{
-            if (it){
+        viewModel.navigateToSignUpFragment.observe(viewLifecycleOwner, {
+            if (it) {
                 findNavController().navigate(R.id.action_userAuth_to_signupFragment)
             }
         })
