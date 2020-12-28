@@ -2,18 +2,14 @@ package `in`.co.jnana.ui.profile
 
 import `in`.co.jnana.database.CourseStudentDAO
 import `in`.co.jnana.database.StudentWithCourses
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.*
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileViewModel(
     private val dataSource: CourseStudentDAO
 ) : ViewModel() {
-
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val _navigateToCourseDetail = MutableLiveData<Long>()
     val navigateToCourseDetail
@@ -34,7 +30,7 @@ class ProfileViewModel(
     }
 
     fun loadDataSet() {
-        uiScope.launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _dataset.postValue(dataSource.getStudentWithCourses())
             }

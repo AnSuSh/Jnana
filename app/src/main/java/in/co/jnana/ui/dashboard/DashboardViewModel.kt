@@ -43,6 +43,8 @@ class DashboardViewModel(private val dataSource: CourseDAO, application: Applica
                     dataSource.insert(course[0])
                     dataSource.insert(course[1])
                     dataSource.insert(course[2])
+                    dataSource.insert(course[3])
+                    dataSource.insert(course[4])
                 } else
                     refreshData()
             }

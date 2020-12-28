@@ -23,26 +23,21 @@ class CourseDetailViewModel(
     val studentID: LiveData<Long>
         get() = _studentID
 
-
     fun getCourseData() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
                 courseTemporary = dataSource.getCourseByID(courseID)!!
             }
             withContext(Dispatchers.Main) {
-                _courseTitle.value = courseTemporary.title
-                _courseDescription.value = courseTemporary.description
+                _courseOpted.value = courseTemporary
             }
         }
     }
 
-    private var _courseTitle = MutableLiveData<String>()
-    val courseTitle: LiveData<String>
-        get() = _courseTitle
+    private var _courseOpted = MutableLiveData<Course>()
+    val courseOpted: LiveData<Course>
+        get() = _courseOpted
 
-    private var _courseDescription = MutableLiveData<String>()
-    val courseDescription: LiveData<String>
-        get() = _courseDescription
 
     fun buyCourse(courseID: Long, studentID: Long) {
         uiScope.launch {

@@ -4,6 +4,8 @@ import `in`.co.jnana.R
 import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.CourseDetailFragmentBinding
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +22,7 @@ class CourseDetailFragment : Fragment() {
     private lateinit var courseDetailViewModel: CourseDetailViewModel
     private lateinit var courseDataBinding: CourseDetailFragmentBinding
     private lateinit var userAuthName: String
+    private lateinit var args: CourseDetailFragmentArgs
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,7 @@ class CourseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val args = CourseDetailFragmentArgs.fromBundle(requireArguments())
+        args = CourseDetailFragmentArgs.fromBundle(requireArguments())
         val application = requireActivity().application
         val dataSource = JnanaDatabase.getInstance(application).courseDatabaseDAO
         val sDataSource = JnanaDatabase.getInstance(application).courseStudentDAO
@@ -67,8 +70,8 @@ class CourseDetailFragment : Fragment() {
         courseDataBinding.buttonBuy.setOnClickListener {
             if (userAuthName != "null") { // User is signed in
                 courseDetailViewModel.getUserIDByUsername(userAuthName)
-                courseDetailViewModel.studentID.observe(viewLifecycleOwner, {l->
-                    if (l > 0){
+                courseDetailViewModel.studentID.observe(viewLifecycleOwner, { l ->
+                    if (l > 0) {
                         courseDetailViewModel.buyCourse(args.courseID, l)
                         it.isEnabled = false
                         Log.d("Log....", "${args.courseID}, $it")
@@ -79,9 +82,19 @@ class CourseDetailFragment : Fragment() {
             }
         }
 
-        when(args.isFromProfile){
-            true -> courseDataBinding.buttonBuy.visibility = View.GONE
-            false -> courseDataBinding.buttonBuy.visibility = View.VISIBLE
+        courseDataBinding.previewYoutube.setOnClickListener {
+            courseDetailViewModel.courseOpted.value?.url?.let { url -> launchYoutubeWithURL(url) }
+        }
+
+        when (args.isFromProfile) {
+            true -> {
+                courseDataBinding.buttonBuy.visibility = View.GONE
+                courseDataBinding.previewYoutube.visibility = View.VISIBLE
+            }
+            false -> {
+                courseDataBinding.buttonBuy.visibility = View.VISIBLE
+                courseDataBinding.previewYoutube.visibility = View.GONE
+            }
         }
 
         courseDataBinding.courseDetailVM = courseDetailViewModel
@@ -89,5 +102,8 @@ class CourseDetailFragment : Fragment() {
         courseDataBinding.executePendingBindings()
     }
 
-
+    private fun launchYoutubeWithURL(url: String) {
+        val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        this.requireActivity().startActivity(youtubeIntent)
+    }
 }

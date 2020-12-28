@@ -5,7 +5,7 @@ import `in`.co.jnana.database.StudentDAO
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 
 class SignupViewModel(private val dataSource: StudentDAO, application: Application) : AndroidViewModel(application) {
 
@@ -20,8 +20,6 @@ class SignupViewModel(private val dataSource: StudentDAO, application: Applicati
     private var _successSignup = MutableLiveData<Boolean>()
     val successSignup: LiveData<Boolean>
         get() = _successSignup
-
-    private val uiScope = CoroutineScope(Dispatchers.Main + Job())
 
     fun setValuesOfEdits(
         name: String,
@@ -51,10 +49,8 @@ class SignupViewModel(private val dataSource: StudentDAO, application: Applicati
             emailID = this.emailID!!,
             mobileNo = this.mobileNum!!
         )
-        uiScope.launch {
-            withContext(Dispatchers.IO){
+        viewModelScope.launch {
                 dataSource.insert(student) // Inserting to database
-            }
         }
         _successSignup.value = true
     }
@@ -65,10 +61,8 @@ class SignupViewModel(private val dataSource: StudentDAO, application: Applicati
 
     fun checkUsername(): Boolean {
         var stud: Student? = null
-        uiScope.launch {
-            withContext(Dispatchers.IO){
+        viewModelScope.launch {
                 stud = dataSource.getStudentByUsername(userName!!)
-            }
         }
         return stud == null
     }

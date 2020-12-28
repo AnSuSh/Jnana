@@ -22,6 +22,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: EnrolledCourseAdapter
     private lateinit var preferences: SharedPreferences
+    private var toastShowVar : Int = 1
 
     @InternalCoroutinesApi
     override fun onCreateView(
@@ -31,6 +32,11 @@ class ProfileFragment : Fragment() {
     ): View {
 
         arg = ProfileFragmentArgs.fromBundle(requireArguments())
+
+//        savedInstanceState?.let {
+//            toastShowVar = it.getInt("toast_show")
+//            Log.i("Value of toast_show", toastShowVar.toString())
+//        }
 
         val application = requireActivity().application
         val dataSource = JnanaDatabase.getInstance(application).courseStudentDAO
@@ -120,8 +126,9 @@ class ProfileFragment : Fragment() {
                 val newList = it.filter { entity ->
                     entity.student.userName == preferences.getString("user_name", "")
                 }
-                val listCourses = newList[0].courses
-                if (listCourses.isNotEmpty()){
+
+                if (newList.isNotEmpty()){
+                    val listCourses = newList[0].courses
                     binding.enrolledCourseList.visibility = View.VISIBLE
                     binding.emptyTV.visibility = View.GONE
                     adapter.submitList(listCourses)
@@ -134,13 +141,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun alright(preferences: SharedPreferences) {
-//        if (profileViewModel.toastShowCount > 0) {
+//        if (toastShowVar > 0) {
 //            Toast.makeText(
 //                this.activity,
 //                "User Authentication successful..!!",
 //                Toast.LENGTH_SHORT
 //            ).show()
-//            profileViewModel.toastShowCount = 0
+//            toastShowVar = 0
 //        }
         preferences.getString("user_name", "")?.let { profileViewModel.greetUser(it) }
     }
@@ -167,4 +174,9 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putInt("toast_show", toastShowVar)
+//    }
 }

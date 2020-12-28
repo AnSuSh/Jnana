@@ -35,4 +35,6 @@
     <string name="buy_course_button">Enroll to the Course</string>
     <string name="enrolled_courses">Enrolled Courses</string>
     <string name="empty_course_list">No Courses enrolled</string>
+    <string name="buffering_text">Video is Buffering</string>
+    <string name="preview_button_text">Watch preview in youtube !!</string>
 </resources>

@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
+
     private val splashScreenTimeout = 2000L
 
     override fun onCreate(savedInstanceState: Bundle?) {

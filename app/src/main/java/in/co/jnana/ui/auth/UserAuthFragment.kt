@@ -4,12 +4,11 @@ import `in`.co.jnana.R
 import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.UserAuthFragmentBinding
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -38,39 +37,6 @@ class UserAuthFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginVM = viewModel
 
-
-//        /**
-//         *  Observer which shows error in password textview
-//         *  based on the value of passwordErrorShow variable
-//         * */
-//        viewModel.passwordErrorShow.observe(viewLifecycleOwner, {
-//            if (it) {
-//                binding.passwordLayout.error = "Password not matching..please try again!"
-//            }
-//        })
-
-//        binding.passwordTextView.setOnFocusChangeListener { _: View, _: Boolean ->
-//            Log.i(getString(R.string.logKey), "password textview is clicked..!!")
-//            viewModel.donePasswordErrorShow()
-//            binding.passwordLayout.error = null
-//        }
-
-//        /**
-//         *  Observer which shows error in username textview
-//         *  based on the value of usernameErrorShow variable
-//         * */
-//        viewModel.usernameErrorShow.observe(viewLifecycleOwner, {
-//            if (it) {
-//                binding.usernameLayout.error = "User not found..please check credentials!"
-//            }
-//        })
-
-//        binding.userNameTextView.setOnClickListener {
-//            Log.i(getString(R.string.logKey), "Username textview is clicked..!!")
-//            viewModel.doneUsernameErrorShow()
-//            binding.usernameLayout.error = null
-//        }
-
         /**
          *  Observer which navigates to profile fragment upon user authentication
          *  based on the value of navigateToProfileFragment variable
@@ -89,13 +55,6 @@ class UserAuthFragment : Fragment() {
             }
 //            viewModel.doneNavigationToProfileFragment()
         })
-//
-//        viewModel.showToast.observe(viewLifecycleOwner,{
-//            if (it == "user")
-//                Toast.makeText(this.context, "User Not Found ..!!", Toast.LENGTH_SHORT).show()
-//            else if(it =="password")
-//                Toast.makeText(this.context, "Password not matching", Toast.LENGTH_SHORT).show()
-//        })
 
         viewModel.runSetupDatabase()
 
@@ -109,20 +68,19 @@ class UserAuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val afterTextChanged = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(p0: Editable?) {
-                viewModel.setValues(
-                    binding.userNameTextView.text.toString(),
-                    binding.passwordTextView.text.toString()
-                )
-            }
+        binding.userNameTextView.doAfterTextChanged {
+            viewModel.setValues(
+                binding.userNameTextView.text.toString(),
+                binding.passwordTextView.text.toString()
+            )
         }
-        binding.userNameTextView.addTextChangedListener(afterTextChanged)
-        binding.passwordTextView.addTextChangedListener(afterTextChanged)
+        binding.passwordTextView.doAfterTextChanged {
+            viewModel.setValues(
+                binding.userNameTextView.text.toString(),
+                binding.passwordTextView.text.toString()
+            )
+        }
 
         viewModel.navigateToSignUpFragment.observe(viewLifecycleOwner, {
             if (it) {
