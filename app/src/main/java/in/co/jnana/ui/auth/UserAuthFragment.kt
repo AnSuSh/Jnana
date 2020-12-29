@@ -1,5 +1,6 @@
 package `in`.co.jnana.ui.auth
 
+import `in`.co.jnana.MainActivity
 import `in`.co.jnana.R
 import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.UserAuthFragmentBinding
@@ -87,5 +88,11 @@ class UserAuthFragment : Fragment() {
                 findNavController().navigate(R.id.action_userAuth_to_signupFragment)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity: MainActivity = requireActivity() as MainActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

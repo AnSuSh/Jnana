@@ -1,5 +1,6 @@
 package `in`.co.jnana.ui.auth
 
+import `in`.co.jnana.MainActivity
 import `in`.co.jnana.R
 import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.SignupFragmentBinding
@@ -123,5 +124,11 @@ class SignupFragment : Fragment() {
                 }, 4L)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity: MainActivity = requireActivity() as MainActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

@@ -1,5 +1,6 @@
 package `in`.co.jnana.ui.course
 
+import `in`.co.jnana.MainActivity
 import `in`.co.jnana.R
 import `in`.co.jnana.database.JnanaDatabase
 import `in`.co.jnana.databinding.CourseDetailFragmentBinding
@@ -105,5 +106,11 @@ class CourseDetailFragment : Fragment() {
     private fun launchYoutubeWithURL(url: String) {
         val youtubeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         this.requireActivity().startActivity(youtubeIntent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity: MainActivity = requireActivity() as MainActivity
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

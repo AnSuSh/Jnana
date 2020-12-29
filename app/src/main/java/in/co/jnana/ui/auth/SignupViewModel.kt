@@ -5,7 +5,9 @@ import `in`.co.jnana.database.StudentDAO
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignupViewModel(private val dataSource: StudentDAO, application: Application) : AndroidViewModel(application) {
 
@@ -50,7 +52,9 @@ class SignupViewModel(private val dataSource: StudentDAO, application: Applicati
             mobileNo = this.mobileNum!!
         )
         viewModelScope.launch {
+            withContext(Dispatchers.IO){
                 dataSource.insert(student) // Inserting to database
+            }
         }
         _successSignup.value = true
     }
@@ -62,7 +66,9 @@ class SignupViewModel(private val dataSource: StudentDAO, application: Applicati
     fun checkUsername(): Boolean {
         var stud: Student? = null
         viewModelScope.launch {
+            withContext(Dispatchers.IO) {
                 stud = dataSource.getStudentByUsername(userName!!)
+            }
         }
         return stud == null
     }
